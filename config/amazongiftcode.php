@@ -53,7 +53,7 @@ return [
      |
      */
 
-    'currency' => env('GIFT_CARD_CURRENCY', 'USD'),
+    'currency' => env('GIFT_CARD_CURRENCY', 'EUR'),
 
     'debug' => env('GIFT_CARD_DEBUG', false)
 
