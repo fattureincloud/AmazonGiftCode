@@ -48,14 +48,14 @@ class AWS
 
     /**
      * @param $amount
+     * @param null $creation
      * @return CreateResponse
      *
-     * @throws AmazonErrors
      */
-    public function getCode($amount): CreateResponse
+    public function getCode($amount, $creation = null): CreateResponse
     {
         $serviceOperation = self::CREATE_GIFT_CARD_SERVICE;
-        $payload = $this->getGiftCardPayload($amount);
+        $payload = $this->getGiftCardPayload($amount, $creation);
         $canonicalRequest = $this->getCanonicalRequest($serviceOperation, $payload);
         $dateTimeString = $this->getTimestamp();
         $result = json_decode($this->makeRequest($payload, $canonicalRequest, $serviceOperation, $dateTimeString), true);
@@ -247,13 +247,14 @@ class AWS
 
     /**
      * @param $amount
+     * @param null $creationId
      * @return string
      */
     public function getGiftCardPayload($amount, $creationId = null): string
     {
         $amount = trim($amount);
         $payload = [
-           "creationRequestId" => $this->_config->getPartner() . "_" . time(),
+           "creationRequestId" => $creationId ?: $this->_config->getPartner() . "_" . time(),
             'partnerId' => $this->_config->getPartner(),
             'value' =>
                 [
